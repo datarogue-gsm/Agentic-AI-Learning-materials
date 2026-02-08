@@ -1,3 +1,5 @@
+![GitHub Banner](github_banner.png)
+
 # Agentic AI Learning Materials
 
 This repository contains resources and materials for learning Generative AI. It is designed to help learners understand the concepts, tools, and techniques required to work with Generative AI effectively.
