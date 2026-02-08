@@ -21,4 +21,8 @@ The goal of this repository is to provide a structured learning path for individ
 3. Complete the assignments and quizzes to test your understanding.
 4. Refer to the additional resources for deeper insights.
 
+## Pre-requisites lists
+1. Create virtual environment - https://www.w3schools.com/python/python_virtualenv.asp
+2. All about 'uv' package - https://docs.astral.sh/uv/
+
 Happy Learning!

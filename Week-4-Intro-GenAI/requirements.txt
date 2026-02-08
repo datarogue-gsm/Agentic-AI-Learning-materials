@@ -1,0 +1,12 @@
+dotenv
+transformers 
+kernels 
+torch 
+accelerate
+openai
+huggingface_hub
+python-dotenv
+tqdm
+sentencepiece
+tensorflow
+matplotlib
