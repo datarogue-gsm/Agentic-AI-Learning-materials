@@ -1,0 +1,10 @@
+langchain 
+langchain-core 
+langchain-openai 
+langchain-classic
+dotenv
+transformers
+openai
+huggingface_hub
+python-dotenv
+tqdm
