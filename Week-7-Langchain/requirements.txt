@@ -8,3 +8,7 @@ openai
 huggingface_hub
 python-dotenv
 tqdm
+ddgs
+wikipedia 
+duckduckgo-search
+langchain_experimental
