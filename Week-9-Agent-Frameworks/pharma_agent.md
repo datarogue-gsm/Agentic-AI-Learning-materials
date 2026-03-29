@@ -1,191 +1,117 @@
-# 🧠 Pharmaceutical Research Assistant Agent
+# Pharmaceutical Research Assistant Agent
 
 ---
 
-## 📌 Overview
+## What this is
 
-This project demonstrates how to build an **intelligent pharmaceutical research assistant** using LangChain.
+This is a simple agent built using LangChain that acts like a basic pharmaceutical assistant.
 
-The agent simulates **real-world pharmaceutical workflows** and provides **reliable, domain-specific assistance** by leveraging tool-based reasoning.
+It can:
 
----
+* Look up drug information
+* Check safety (contraindications)
+* Calculate dosage
+* Fetch additional medical context (simulated)
 
-## 🚀 Key Features
-
-### 💊 Drug Information Lookup
-
-* Retrieve drug details such as:
-
-  * Usage
-  * Contraindications
-* Uses a mock database (can be extended to real systems)
+The idea is to show how an agent can **choose the right tool based on the question**.
 
 ---
 
-### ⚠️ Safety Checks
+## Why this matters
 
-* Validates contraindications
-* Ensures patient safety before recommendations
+In real-world pharma or healthcare systems, a lot of tasks are:
 
----
+* repetitive
+* rule-based
+* safety-critical
 
-### 🧮 Dosage Calculations
+This kind of setup helps:
 
-* Computes recommended dosage based on:
-
-  * Patient weight
-  * mg/kg prescription
-
----
-
-### 🌐 Medical Knowledge Retrieval
-
-* Simulates external research lookup (e.g., PubMed APIs)
-* Provides additional medical context when needed
+* reduce manual effort
+* make responses more structured
+* avoid random or unsafe answers
 
 ---
 
-### 🤖 Dynamic Tool Selection
-
-* Agent automatically selects the correct tool based on user query
-* No manual routing required
-
----
-
-## ⚙️ Technical Highlights
-
-### 🔧 Tool-Based Architecture
-
-* Uses `@tool` decorators to define modular functions
-* Each tool performs a specific task (lookup, safety, dosage, search)
-
----
-
-### 🧠 Agent Reasoning
-
-* Connects LLM with tools
-* Enables:
-
-  * Decision making
-  * Tool selection
-  * Context-aware responses
-
----
-
-### 🤖 Language Model Backend
-
-* Powered by **GPT-4o-mini**
-* Provides:
-
-  * Accurate reasoning
-  * Context understanding
-  * Natural responses
-
----
-
-### 📝 System Prompt Guidance
-
-* Ensures:
-
-  * Safe behavior
-  * Correct tool usage
-  * Reduced hallucination
-
----
-
-## 🔄 Workflow
+## How it works (high level)
 
 ```text
-User Input
-     ↓
-Agent Understanding
-     ↓
-Tool Selection
-     ↓
-Tool Execution
-     ↓
-Response Generation
+User question
+   ↓
+Agent understands intent
+   ↓
+Picks the right tool
+   ↓
+Runs the tool
+   ↓
+Returns answer
 ```
 
 ---
 
-### 🧾 Example Flow
+## Tools used
 
-1. **User Input**
+* `lookup_drug` → basic drug info
+* `safety_check` → contraindications
+* `dosage_calculator` → dose calculation
+* `external_medical_search` → fallback for extra info
 
-   ```
-   Calculate dosage for a 70kg patient at 10 mg/kg
-   ```
-
-2. **Tool Selection**
-   → `dosage_calculator`
-
-3. **Tool Execution**
-   → Computes dosage
-
-4. **Final Response**
-   → Returns result with explanation
+Each tool does one job. The agent decides which one to use.
 
 ---
 
-## 💼 Business Benefits
+## Example
 
-### ✅ Domain-Specific Intelligence
+**Input:**
 
-* Tailored for pharmaceutical workflows
+```
+Calculate dosage for a 70kg patient at 10 mg/kg
+```
 
----
+**What happens:**
 
-### 🔐 Safety-First Design
-
-* Explicit safety checks before responses
-
----
-
-### ⚡ Automation
-
-* Reduces manual effort in:
-
-  * Research
-  * Drug evaluation
-  * Clinical workflows
+* Agent detects it's a dosage problem
+* Calls `dosage_calculator`
+* Returns result
 
 ---
 
-### 🔄 Extensibility
+## What’s interesting here
 
-* Can integrate:
+* The model is not doing everything
+* It mostly decides *which tool to call*
+* Tools handle the actual logic
 
-  * Real databases
-  * Clinical APIs
-  * Multi-step workflows
-
----
-
-## 🚀 Use Cases
-
-* 🏥 Clinical decision support
-* 💊 Drug safety evaluation
-* 🔬 Pharmaceutical research
-* 📊 Medical data analysis
-* 🤖 Patient support systems
+That’s the core idea behind agentic systems.
 
 ---
 
-## 🎯 Key Learning Outcomes
+## Things to keep in mind
 
-Students will understand:
-
-* How to build **tool-based agents**
-* How LLMs interact with external tools
-* Designing **safe AI systems**
-* Structuring **multi-step workflows**
+* Keep tools simple and focused
+* Don’t overlap tool responsibilities too much
+* Always guide the agent with a clear prompt
+* In sensitive domains (like pharma), avoid guessing
 
 ---
 
-## 💡 Final Insight
+## Where this can go next
 
-> “An agent is not just an LLM —
-> it is an intelligent system that knows **when to act, what to use, and how to respond safely**.”
+* Connect to real medical APIs
+* Add patient history context
+* Chain multiple tools (carefully)
+* Add logging / validation layers
+
+---
+
+## Final thought
+
+This is a small setup, but the pattern is useful.
+
+Once you understand this, you can build:
+
+* support assistants
+* research tools
+* internal automation systems
 
 ---
