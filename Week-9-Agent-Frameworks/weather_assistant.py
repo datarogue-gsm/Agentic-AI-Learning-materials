@@ -51,12 +51,6 @@ def get_weather(city: str) -> str:
         return "Error: API key missing. Check your .env file."
 
     url = f"https://api.weatherapi.com/v1/current.json?key={API_KEY}&q={city}"
-
-    # https://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q=London&aqi=yes&lang=en
-    # &q=28.61,77.20      # lat,long
-    # &q=560001           # pincode
-    # &q=Bangalore        # city
-
     response = requests.get(url)
 
     # Erro-handling-3 - Check whether the weather api request is successful or not
@@ -68,34 +62,81 @@ def get_weather(city: str) -> str:
     cond = data["current"]["condition"]["text"]
     return f"Weather in {city}: {temp}°C, {cond}."
 
+@tool
+def weather_advisor(condition: str, temperature: float) -> str:
+    """
+    Provide recommendations on what to do and what to avoid based on weather conditions.
+
+    Use this tool when the user asks:
+    - What should I do in this weather?
+    - Is it safe to go outside?
+    - Suggestions based on weather conditions
+
+    Inputs:
+        condition (str): Weather condition (e.g., Sunny, Rainy, Cloudy)
+        temperature (float): Temperature in Celsius
+
+    Output:
+        str: Actionable advice including:
+             - What to do
+             - What to avoid
+    """
+
+    condition = condition.lower()
+
+    advice = []
+
+    # 🌧️ Rainy
+    if "rain" in condition:
+        advice.append("🌧️ Carry an umbrella or raincoat")
+        advice.append("⚠️ Avoid outdoor activities")
+        advice.append("🚗 Drive carefully due to slippery roads")
+
+    # ☀️ Sunny / Hot
+    elif "sun" in condition or temperature > 30:
+        advice.append("☀️ Stay hydrated and drink water")
+        advice.append("🧴 Use sunscreen")
+        advice.append("⚠️ Avoid going out during peak afternoon heat")
+
+    # ❄️ Cold
+    elif temperature < 10:
+        advice.append("🧥 Wear warm clothes")
+        advice.append("🔥 Stay indoors if possible")
+        advice.append("⚠️ Avoid prolonged exposure to cold")
+
+    # 🌥️ Normal / Cloudy
+    else:
+        advice.append("👍 Weather is pleasant")
+        advice.append("🚶 Good time for outdoor activities")
+        advice.append("😊 Enjoy your day!")
+
+    return "\n".join(advice)
 
 # ---------------- LLM + AGENT ----------------
 model = ChatOpenAI(model="gpt-4o-mini")
 
 prompt_template = ChatPromptTemplate.from_template("""
-You are an expert weather assistant.
+You are a smart weather assistant.
 
-You have access to tools to get real-time weather information.
+You have two tools:
+1. get_weather → fetch weather data
+2. weather_advisor → give recommendations
 
-Follow this process:
-1. Understand the user query
-2. If needed, call the appropriate tool
-3. Use the tool result to answer
-4. Always return a final answer
+Instructions:
+- First call get_weather to fetch data
+- Then use weather_advisor to provide suggestions
+- Always combine both outputs into final answer
 
----
 User Question:
 {input}
 
----
 Previous Steps:
 {agent_scratchpad}
 
----
 Final Answer:
 """)
 
-tools = [get_weather]
+tools = [get_weather, weather_advisor]
 
 agent = create_tool_calling_agent(
     llm=model,
@@ -107,7 +148,7 @@ executor = AgentExecutor(
     agent=agent,
     tools=tools,
     verbose=True,
-    max_iterations=3   
+    max_iterations=5   
 )
 
 

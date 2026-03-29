@@ -3,3 +3,5 @@ pyproject.toml
 uv.lock
 py310/
 .venv
+uv.lock
+pyproject.toml
